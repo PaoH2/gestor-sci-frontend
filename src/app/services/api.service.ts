@@ -54,7 +54,7 @@ export class ApiService {
   }
 
   registrarVenta(datosVenta: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/ventas/registrar`, datosVenta);
+    return this.http.post(`${this.apiUrl}/ventas/registrar/`, datosVenta);
   }
 
   getVentas(): Observable<any[]> {
