@@ -1,0 +1,102 @@
+<!-- 1. Navegación Fija -->
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<!-- 2. Contenido Principal -->
+<main class="main-content">
+  <div class="table-container">
+
+    <!-- Encabezado de la Página -->
+    <div class="page-header">
+      <div class="header-left">
+        <button type="button" class="btn-back" (click)="goBack()" title="Regresar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+          </svg>
+          <span>Regresar</span>
+        </button>
+        <h2 class="page-title">Gestionar Usuarios</h2>
+      </div>
+
+      <!-- Botón Crear (Visible solo para Superadmin) -->
+      <a routerLink="/crearusuario" *ngIf="isSuperadmin()" class="btn-create-wrapper">
+        <button class="btn btn-create">
+          <i class="bi bi-person-plus-fill"></i>
+          <span class="d-none d-sm-inline">Crear Usuario</span>
+        </button>
+      </a>
+    </div>
+
+    <!-- Indicador de Carga -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner-border text-primary-custom" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-2 text-muted">Cargando lista de usuarios...</p>
+    </div>
+
+    <!-- Mensaje de Error -->
+    <div *ngIf="error" class="alert alert-danger fade-in">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ error }}
+    </div>
+
+    <!-- Tabla de Usuarios -->
+    <div *ngIf="!isLoading && !error" class="table-responsive custom-scrollbar">
+      <table class="table table-hover align-middle">
+        <thead class="table-head-custom">
+          <tr>
+            <th scope="col" class="ps-3">ID</th>
+            <th scope="col">Email</th>
+            <th scope="col">Rol</th>
+            <th scope="col" *ngIf="isSuperadmin()" class="text-end pe-3">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td class="ps-3 fw-bold text-muted">#{{ user.id }}</td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div class="avatar-circle">{{ user.email.charAt(0) | uppercase }}</div>
+                {{ user.email }}
+              </div>
+            </td>
+            <td>
+              <span class="badge rounded-pill"
+                    [ngClass]="{
+                      'bg-primary-subtle text-primary-dark': user.role === 'admin' || user.role === 'superadmin',
+                      'bg-secondary-subtle text-secondary': user.role !== 'admin' && user.role !== 'superadmin'
+                    }">
+                {{ user.role }}
+              </span>
+            </td>
+            <td *ngIf="isSuperadmin()" class="text-end pe-3">
+              <div class="btn-group">
+                <a [routerLink]="['/admin/usuarios/editar', user.id]"
+                   class="btn btn-sm btn-outline-primary"
+                   [class.disabled]="user.id === authService.currentUserValue?.id"
+                   title="Editar">
+                  <i class="bi bi-pencil-fill"></i>
+                </a>
+                <button class="btn btn-sm btn-outline-danger"
+                        (click)="deleteUser(user)"
+                        [disabled]="user.id === authService.currentUserValue?.id"
+                        title="Eliminar">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Estado Vacío -->
+          <tr *ngIf="users.length === 0">
+            <td [attr.colspan]="isSuperadmin() ? 4 : 3" class="text-center py-5 text-muted">
+              <i class="bi bi-people display-4 d-block mb-3 opacity-50"></i>
+              No hay usuarios registrados en el sistema.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</main>

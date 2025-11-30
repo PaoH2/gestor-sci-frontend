@@ -1,0 +1,81 @@
+<!-- Contenedor Principal de Pantalla Completa -->
+<div class="login-layout">
+
+  <div class="login-card fade-in">
+    <!-- Encabezado de la Tarjeta (Branding) -->
+    <div class="card-header-brand">
+      <div class="brand-icon-wrapper">
+        <i class="bi bi-box-seam-fill"></i>
+      </div>
+      <h3 class="form-title">Iniciar Sesión</h3>
+      <p class="form-subtitle">Bienvenido al Gestor de Inventario</p>
+    </div>
+
+    <!-- Mensaje de Error -->
+    <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <div>{{ errorMessage }}</div>
+    </div>
+
+    <!-- Formulario -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+
+      <!-- Campo Email -->
+      <div class="mb-4">
+        <label for="email" class="form-label">Correo Electrónico</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-envelope"></i>
+          </span>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="ejemplo@correo.com"
+            [ngClass]="{ 'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched }">
+        </div>
+
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger small mt-1">
+          <div *ngIf="loginForm.get('email')?.errors?.['required']">El correo es obligatorio.</div>
+          <div *ngIf="loginForm.get('email')?.errors?.['email']">Formato inválido.</div>
+        </div>
+      </div>
+
+      <!-- Campo Contraseña -->
+      <div class="mb-4">
+        <label for="password" class="form-label">Contraseña</label>
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-lock"></i>
+          </span>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            placeholder="••••••••"
+            [ngClass]="{ 'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched }">
+        </div>
+
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger small mt-1">
+          <div *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es obligatoria.</div>
+        </div>
+      </div>
+
+      <!-- Botón Ingresar -->
+      <div class="d-grid gap-2 mt-4">
+        <button type="submit" class="btn btn-primary btn-lg" [disabled]="loginForm.invalid || isLoading">
+          <span *ngIf="!isLoading">Ingresar</span>
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Pie de tarjeta opcional -->
+    <div class="card-footer-custom text-center mt-4">
+      <small class="text-muted">&copy; 2025 Gestor SCI</small>
+    </div>
+  </div>
+</div>

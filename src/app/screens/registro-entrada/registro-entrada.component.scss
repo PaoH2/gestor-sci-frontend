@@ -1,0 +1,180 @@
+// --- Variables de Tema ---
+$primary-color: #5D4037; // Café
+$accent-color: #FABF8F; // Naranja suave
+$bg-color: #f8f9fa;
+$white: #ffffff;
+$shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+:host {
+  display: block;
+  background-color: $bg-color;
+  min-height: 100vh;
+}
+
+// =========================================================
+// 1. LAYOUT RESPONSIVO (Core)
+// =========================================================
+.main-content {
+  width: 100%;
+  transition: all 0.3s ease;
+
+  // MÓVIL
+  padding-top: 80px;
+  padding-bottom: 90px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  // ESCRITORIO
+  @media (min-width: 768px) {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    padding-top: 84px;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+// =========================================================
+// 2. FORM WRAPPER (Tarjeta Central)
+// =========================================================
+.form-wrapper {
+  max-width: 600px; // Formulario compacto
+  margin: 0 auto;
+  background-color: $white;
+  border-radius: 12px;
+  box-shadow: $shadow-card;
+  padding: 2rem;
+
+  @media (max-width: 767px) {
+    padding: 1.5rem 1rem;
+    box-shadow: none;
+    background-color: transparent;
+  }
+}
+
+// =========================================================
+// 3. ENCABEZADO
+// =========================================================
+.form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid rgba($primary-color, 0.1);
+  padding-bottom: 1rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  color: $primary-color;
+  font-weight: 700;
+  margin: 0;
+}
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  color: $primary-color;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  transition: color 0.2s;
+
+  &:hover {
+    color: darken($accent-color, 20%);
+    svg { transform: translateX(-3px); }
+  }
+  svg { transition: transform 0.2s; }
+}
+
+// =========================================================
+// 4. INPUTS & GRUPOS
+// =========================================================
+.app-form {
+  .form-label {
+    font-weight: 500;
+    color: $primary-color;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  // Estilo para Input Group (Icono + Input)
+  .input-group-text {
+    border-color: #ddd;
+    color: $primary-color;
+  }
+
+  .form-control {
+    border: 1px solid #ddd;
+    border-radius: 0 8px 8px 0; // Bordes redondeados solo a la derecha
+    padding: 0.75rem;
+    font-size: 1rem;
+
+    // Si no está en un grupo, redondear todo
+    &:not(.border-start-0) { border-radius: 8px; }
+
+    &:focus {
+      border-color: $accent-color;
+      box-shadow: none; // Quitar sombra bootstrap por defecto
+      // Opcional: Agregar sombra suave al grupo entero si se desea
+    }
+
+    &.is-invalid {
+      border-color: #dc3545;
+    }
+  }
+
+  // Efecto Focus en el grupo entero (simulado)
+  .input-group:focus-within {
+    box-shadow: 0 0 0 4px rgba($accent-color, 0.2);
+    border-radius: 8px;
+
+    .input-group-text, .form-control {
+      border-color: $accent-color;
+    }
+  }
+}
+
+// =========================================================
+// 5. BOTÓN SUBMIT
+// =========================================================
+.form-actions {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: flex-end;
+
+  @media (max-width: 767px) {
+    .btn-save { width: 100%; }
+  }
+}
+
+.btn-save {
+  background-color: $primary-color;
+  color: $white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: lighten($primary-color, 5%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+// Animación
+.fade-in { animation: fadeIn 0.3s ease-in; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }

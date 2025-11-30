@@ -1,0 +1,201 @@
+// --- Variables de Tema ---
+$primary-color: #5D4037; // Café
+$accent-color: #FABF8F; // Naranja suave
+$bg-color: #f8f9fa;
+$white: #ffffff;
+$shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+$shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+
+// Colores de Métricas
+$blue-bg: #e7f1ff; $blue-text: #0d6efd;
+$green-bg: #d1e7dd; $green-text: #0f5132;
+$purple-bg: #f3e5f5; $purple-text: #6f42c1;
+$info-bg: #cff4fc; $info-text: #055160;
+$orange-bg: #ffe0b2; $orange-text: #e65100;
+$warning-bg: #fff3cd; $warning-text: #856404;
+
+:host {
+  display: block;
+  background-color: $bg-color;
+  min-height: 100vh;
+}
+
+// =========================================================
+// 1. LAYOUT RESPONSIVO (Core)
+// =========================================================
+.main-content {
+  width: 100%;
+  transition: all 0.3s ease;
+
+  // MÓVIL
+  padding-top: 80px;
+  padding-bottom: 90px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  // ESCRITORIO
+  @media (min-width: 768px) {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    padding-top: 84px;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.dashboard-container {
+  max-width: 1400px; // Dashboard puede ser más ancho
+  margin: 0 auto;
+}
+
+// =========================================================
+// 2. ENCABEZADO
+// =========================================================
+.page-title {
+  font-size: 1.75rem;
+  color: $primary-color;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.text-primary-custom { color: $primary-color; }
+
+// =========================================================
+// 3. TARJETAS DE ESTADÍSTICAS (KPIs)
+// =========================================================
+.stat-card {
+  background-color: $white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: $shadow-sm;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
+  border: 1px solid transparent;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: $shadow-md;
+  }
+
+  // Borde especial para alerta
+  &.border-start-warning {
+    border-left: 5px solid #ffc107;
+  }
+}
+
+.icon-box {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $primary-color;
+  margin: 0;
+}
+
+// Clases de colores utilitarios
+.bg-blue-subtle { background-color: $blue-bg; } .text-blue { color: $blue-text; }
+.bg-green-subtle { background-color: $green-bg; } .text-green { color: $green-text; }
+.bg-purple-subtle { background-color: $purple-bg; } .text-purple { color: $purple-text; }
+.bg-info-subtle { background-color: $info-bg; } .text-info-dark { color: $info-text; }
+.bg-orange-subtle { background-color: $orange-bg; } .text-orange { color: $orange-text; }
+.bg-warning-subtle { background-color: $warning-bg; } .text-warning-dark { color: $warning-text; }
+
+// =========================================================
+// 4. TARJETAS DE CONTENIDO (Gráficos y Tablas)
+// =========================================================
+.content-card {
+  background-color: $white;
+  border-radius: 12px;
+  box-shadow: $shadow-sm;
+  overflow: hidden; // Para esquinas redondeadas
+  border: 1px solid rgba(0,0,0,0.03);
+
+  &.border-warning-subtle {
+    border: 1px solid #ffeeba;
+  }
+}
+
+.card-header-custom {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  background-color: $white;
+
+  .card-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: $primary-color;
+  }
+}
+
+.card-body-custom {
+  padding: 1.5rem;
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+}
+.pie-chart-wrapper {
+  min-height: 250px;
+}
+
+// =========================================================
+// 5. ALERTA DE STOCK Y TABLA
+// =========================================================
+.alert-header {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.btn-reponer {
+  border: 1px solid $accent-color;
+  color: $primary-color;
+  background-color: transparent;
+
+  &:hover {
+    background-color: $accent-color;
+    color: #3e2723;
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.fade-in { animation: fadeIn 0.5s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

@@ -1,0 +1,111 @@
+<!-- 1. Navegación Fija -->
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<!-- 2. Contenido Principal -->
+<main class="main-content">
+  <div class="table-container">
+
+    <!-- Encabezado de la Página -->
+    <div class="page-header">
+      <div class="header-left">
+        <button type="button" class="btn-back" (click)="goBack()" title="Regresar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+          </svg>
+          <span>Regresar</span>
+        </button>
+        <h2 class="page-title">Historial de Movimientos</h2>
+      </div>
+
+      <!-- Botón Recargar -->
+      <button class="btn btn-refresh" (click)="loadHistorial()" [disabled]="isLoading" title="Actualizar lista">
+        <i class="bi bi-arrow-clockwise" [class.spin-anim]="isLoading"></i>
+        <span class="d-none d-sm-inline">Recargar</span>
+      </button>
+    </div>
+
+    <!-- Indicador de Carga -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner-border text-primary-custom" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-2 text-muted">Cargando movimientos...</p>
+    </div>
+
+    <!-- Mensaje de Error -->
+    <div *ngIf="error" class="alert alert-danger fade-in m-3">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ error }}
+    </div>
+
+    <!-- Tabla de Movimientos -->
+    <div *ngIf="!isLoading && !error" class="table-responsive custom-scrollbar">
+      <table class="table table-hover align-middle">
+        <thead class="table-head-custom">
+          <tr>
+            <th scope="col" class="ps-3">Fecha</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">SKU</th>
+            <th scope="col">Producto</th>
+            <th scope="col" class="text-center">Cantidad</th>
+            <!-- COLUMNA CONDICIONAL -->
+            <th scope="col" *ngIf="isSuperadmin()">Usuario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let mov of movimientos">
+            <!-- Fecha -->
+            <td class="ps-3 text-muted">
+              <div class="d-flex flex-column">
+                <span class="fw-bold">{{ mov.Fecha | date:'dd/MM/yyyy' }}</span>
+                <small>{{ mov.Fecha | date:'h:mm a' }}</small>
+              </div>
+            </td>
+
+            <!-- Tipo (Badge) -->
+            <td>
+              <span class="badge rounded-pill"
+                    [ngClass]="mov.tipo === 'Entrada' ? 'bg-success-subtle text-success-dark' : 'bg-danger-subtle text-danger-dark'">
+                <i class="bi" [ngClass]="mov.tipo === 'Entrada' ? 'bi-arrow-down-left' : 'bi-arrow-up-right'"></i>
+                {{ mov.tipo }}
+              </span>
+            </td>
+
+            <!-- SKU -->
+            <td><span class="font-monospace text-secondary">{{ mov.SKU }}</span></td>
+
+            <!-- Producto -->
+            <td class="fw-500">{{ mov.Nombre_Producto }}</td>
+
+            <!-- Cantidad -->
+            <td class="text-center">
+              <strong [ngClass]="mov.tipo === 'Entrada' ? 'text-success' : 'text-danger'" class="fs-6">
+                {{ mov.tipo === 'Entrada' ? '+' : '-' }}{{ mov.Cantidad }}
+              </strong>
+            </td>
+
+            <!-- Usuario (Solo Admin) -->
+            <td *ngIf="isSuperadmin()">
+              <div class="d-flex align-items-center gap-2">
+                <!-- CORRECCIÓN AQUÍ: Usamos slice:0:1 en lugar de charAt -->
+                <div class="avatar-circle-xs">
+                  {{ mov.Email_Usuario | slice:0:1 | uppercase }}
+                </div>
+                <small class="text-muted text-truncate" style="max-width: 150px;">{{ mov.Email_Usuario }}</small>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Estado Vacío -->
+          <tr *ngIf="movimientos.length === 0">
+            <td [attr.colspan]="isSuperadmin() ? 6 : 5" class="text-center py-5 text-muted">
+              <i class="bi bi-clock-history display-4 d-block mb-3 opacity-50"></i>
+              No hay movimientos registrados.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</main>

@@ -1,0 +1,28 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+.main-content {
+    margin-left: 250px; /* Ancho del sidebar en PC */
+    padding: 20px;
+    padding-top: 80px;  /* Espacio para el navbar */
+    transition: margin-left 0.3s ease;
+}
+
+/* --- MODO MÓVIL (Pantallas menores a 768px) --- */
+@media (max-width: 768px) {
+
+    /* 1. El contenido ocupa todo el ancho */
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+        padding-top: 100px; /* Más espacio arriba porque el navbar se hace doble línea a veces */
+    }
+
+    /* 2. Ajuste para que las tablas no rompan el diseño */
+    ::ng-deep .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}

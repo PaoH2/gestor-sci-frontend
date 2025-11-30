@@ -1,0 +1,185 @@
+<!-- 1. Navegación Fija -->
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<!-- 2. Contenido Principal -->
+<main class="main-content">
+  <div class="dashboard-container">
+
+    <!-- Encabezado -->
+    <div class="dashboard-header mb-4">
+      <div>
+        <h2 class="page-title">Bienvenido al Gestor</h2>
+        <p class="text-muted mb-0">Resumen general del inventario</p>
+      </div>
+      <!-- Opcional: Fecha actual -->
+      <div class="d-none d-md-block text-end">
+        <span class="badge bg-white text-primary-custom border shadow-sm p-2">
+          <!-- CORRECCIÓN: Quitamos {{ today }} para evitar el error si no está definido en el TS.
+               Si deseas la fecha, agrega "today = new Date();" en tu home.component.ts y descomenta lo siguiente:
+               {{ today | date:'fullDate' }}
+          -->
+          <i class="bi bi-calendar-event me-2"></i> Vista General
+        </span>
+      </div>
+    </div>
+
+    <!-- Indicador de Carga -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner-border text-primary-custom" role="status">
+        <span class="visually-hidden">Cargando métricas...</span>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading && metrics" class="fade-in">
+
+      <!-- SECCIÓN 1: TARJETAS DE MÉTRICAS (KPIs) -->
+      <div class="row g-3 mb-4">
+
+        <!-- Fila Superior -->
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="stat-card">
+            <div class="icon-box bg-blue-subtle text-blue">
+              <i class="bi bi-box-seam"></i>
+            </div>
+            <div class="stat-content">
+              <h6 class="stat-label">Productos</h6>
+              <h2 class="stat-value">{{ metrics.totalProductos }}</h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="stat-card">
+            <div class="icon-box bg-green-subtle text-green">
+              <i class="bi bi-layers"></i>
+            </div>
+            <div class="stat-content">
+              <h6 class="stat-label">Unidades en Stock</h6>
+              <h2 class="stat-value">{{ metrics.totalStock }}</h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="stat-card">
+            <div class="icon-box bg-purple-subtle text-purple">
+              <i class="bi bi-currency-dollar"></i>
+            </div>
+            <div class="stat-content">
+              <h6 class="stat-label">Valor Inventario</h6>
+              <h2 class="stat-value">{{ metrics.valorInventario | currency }}</h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fila Inferior -->
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="stat-card">
+            <div class="icon-box bg-info-subtle text-info-dark">
+              <i class="bi bi-box-arrow-in-down"></i>
+            </div>
+            <div class="stat-content">
+              <h6 class="stat-label">Entradas</h6>
+              <h2 class="stat-value">{{ metrics.totalEntradas }}</h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="stat-card">
+            <div class="icon-box bg-orange-subtle text-orange">
+              <i class="bi bi-box-arrow-up"></i>
+            </div>
+            <div class="stat-content">
+              <h6 class="stat-label">Salidas</h6>
+              <h2 class="stat-value">{{ metrics.totalSalidas }}</h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Alerta (Bajo Stock) -->
+        <div class="col-12 col-sm-6 col-lg-4">
+          <div class="stat-card border-start-warning">
+            <div class="icon-box bg-warning-subtle text-warning-dark">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+            </div>
+            <div class="stat-content">
+              <h6 class="stat-label text-warning-dark">Bajo Stock</h6>
+              <h2 class="stat-value text-warning-dark">{{ metrics.productosBajoStock }}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 2: GRÁFICOS -->
+      <div class="row g-3 mb-4">
+        <!-- Gráfico de Barras -->
+        <div class="col-12 col-lg-8">
+          <div class="content-card h-100">
+            <div class="card-header-custom">
+              <h5 class="card-title">Top 5 Productos con Mayor Stock</h5>
+            </div>
+            <div class="card-body-custom">
+              <div class="chart-wrapper">
+                <canvas #barChart></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gráfico de Pastel -->
+        <div class="col-12 col-lg-4">
+          <div class="content-card h-100">
+            <div class="card-header-custom">
+              <h5 class="card-title">Distribución de Stock</h5>
+            </div>
+            <div class="card-body-custom d-flex align-items-center justify-content-center">
+              <div class="chart-wrapper pie-chart-wrapper">
+                <canvas #pieChart></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN 3: TABLA DE BAJO STOCK (Alerta visual) -->
+      <div class="content-card border-warning-subtle" *ngIf="productosBajoStockList.length > 0">
+        <div class="alert-header">
+          <i class="bi bi-exclamation-circle-fill me-2"></i>
+          <span>Atención: Se requiere reabastecimiento para {{ productosBajoStockList.length }} producto(s).</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 align-middle">
+            <thead class="bg-light">
+              <tr>
+                <th class="ps-4">SKU</th>
+                <th>Producto</th>
+                <th class="text-center">Actual</th>
+                <th class="text-center">Mínimo</th>
+                <th class="text-end pe-4">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let prod of productosBajoStockList">
+                <td class="ps-4 fw-bold text-muted">{{ prod.SKU }}</td>
+                <td>{{ prod.Nombre_Producto }}</td>
+                <td class="text-center">
+                  <span class="badge bg-danger rounded-pill">{{ prod.Stock_Actual }}</span>
+                </td>
+                <td class="text-center text-muted">{{ prod.Nivel_Minimo_Stock }}</td>
+                <td class="text-end pe-4">
+                  <a [routerLink]="['/movimientos/entrada']" class="btn btn-sm btn-reponer">
+                    <i class="bi bi-plus-lg"></i> Reponer
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>

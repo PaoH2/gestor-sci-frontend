@@ -1,0 +1,56 @@
+<nav class="sidebar-nav">
+  <ul class="nav-list">
+
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/home" routerLinkActive="active" title="Inicio">
+        <i class="bi bi-house-door"></i>
+        <span class="link-text">Inicio</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/listap" routerLinkActive="active" title="Lista de Productos">
+        <i class="bi bi-boxes"></i>
+        <span class="link-text">Productos</span>
+      </a>
+    </li>
+
+    <!-- Secciones Admin -->
+    <li class="nav-item" *ngIf="isAdmin">
+      <a class="nav-link" routerLink="/gestionarusuarios" routerLinkActive="active" title="Usuarios">
+        <i class="bi bi-person"></i>
+        <span class="link-text">Usuarios</span>
+      </a>
+    </li>
+
+    <li class="nav-item" *ngIf="isAdmin">
+      <a class="nav-link" routerLink="/crear" routerLinkActive="active" title="Nuevo Producto">
+        <i class="bi bi-star"></i>
+        <span class="link-text">Nuevo</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/entradas" routerLinkActive="active" title="Entradas">
+        <i class="bi bi-door-open"></i>
+        <span class="link-text">Entradas</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/salidas" routerLinkActive="active" title="Salidas">
+        <i class="bi bi-cart"></i>
+        <span class="link-text">Salidas</span>
+      </a>
+    </li>
+
+    <!-- Botón Salir (empujado al final en Desktop) -->
+    <li class="nav-item mt-auto">
+      <button class="nav-link btn-logout" (click)="logout()" title="Cerrar Sesión">
+        <i class="bi bi-box-arrow-right"></i>
+        <span class="link-text">Salir</span>
+      </button>
+    </li>
+
+  </ul>
+</nav>

@@ -1,0 +1,156 @@
+// --- Variables de Tema ---
+$primary-color: #5D4037; // Café
+$accent-color: #FABF8F; // Naranja suave
+$bg-color: #f0f2f5; // Gris muy claro para el fondo
+$white: #ffffff;
+$shadow-lg: 0 10px 25px rgba(93, 64, 55, 0.1); // Sombra con un tinte café suave
+
+:host {
+  display: block;
+}
+
+// =========================================================
+// 1. LAYOUT PANTALLA COMPLETA
+// =========================================================
+.login-layout {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $bg-color;
+  // Opcional: Un degradado sutil si te gusta más moderno
+  background: linear-gradient(135deg, #fdfbf7 0%, #f0e4d7 100%);
+  padding: 1rem;
+}
+
+// =========================================================
+// 2. TARJETA DE LOGIN
+// =========================================================
+.login-card {
+  background-color: $white;
+  width: 100%;
+  max-width: 420px; // Ancho ideal para login
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: $shadow-lg;
+  border: 1px solid rgba(255, 255, 255, 0.5); // Borde sutil
+
+  @media (max-width: 576px) {
+    padding: 1.5rem;
+    box-shadow: none; // En móviles a veces se ve mejor plano
+    background-color: rgba(255,255,255,0.9);
+  }
+}
+
+// =========================================================
+// 3. ENCABEZADO Y BRANDING
+// =========================================================
+.card-header-brand {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.brand-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  background-color: $primary-color;
+  color: $accent-color;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  margin: 0 auto 1rem auto;
+  box-shadow: 0 4px 10px rgba(93, 64, 55, 0.3);
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $primary-color;
+  margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+  color: #6c757d;
+  font-size: 0.95rem;
+}
+
+// =========================================================
+// 4. INPUTS
+// =========================================================
+.input-group-text {
+  background-color: #f8f9fa;
+  border-color: #ced4da;
+  color: $primary-color;
+  border-right: none;
+}
+
+.form-control {
+  border-left: none;
+  padding: 0.75rem;
+
+  &:focus {
+    box-shadow: none;
+    border-color: $accent-color;
+    // Forzar el borde del icono también
+    & ~ .input-group-text,
+    .input-group:focus-within .input-group-text {
+      border-color: $accent-color;
+    }
+  }
+}
+
+// Truco para iluminar el borde del icono cuando el input tiene foco
+.input-group:focus-within {
+  box-shadow: 0 0 0 4px rgba($accent-color, 0.2);
+  border-radius: 6px;
+
+  .input-group-text {
+    border-color: $accent-color;
+    background-color: $white;
+  }
+  .form-control {
+    border-color: $accent-color;
+  }
+}
+
+.form-label {
+  font-weight: 500;
+  color: $primary-color;
+  font-size: 0.9rem;
+}
+
+// =========================================================
+// 5. BOTÓN
+// =========================================================
+.btn-primary {
+  background-color: $primary-color;
+  border-color: $primary-color;
+  font-weight: 600;
+  padding: 0.8rem;
+  transition: all 0.3s ease;
+
+  &:hover:not(:disabled) {
+    background-color: lighten($primary-color, 5%);
+    border-color: lighten($primary-color, 5%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(93, 64, 55, 0.3);
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    border-color: #ccc;
+  }
+}
+
+// Animación de entrada suave
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,133 @@
+// --- Variables de Tema ---
+$primary-color: #5D4037; // Café
+$accent-color: #FABF8F; // Naranja suave
+$bg-color: #f8f9fa;
+$white: #ffffff;
+$shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+:host {
+  display: block;
+  background-color: $bg-color;
+  min-height: 100vh;
+}
+
+// =========================================================
+// 1. LAYOUT (Sin Sidebar/Navbar logic)
+// =========================================================
+.main-layout {
+  min-height: 100vh;
+  padding: 2rem 1rem; // Padding general para movil y desktop
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; // Alineado arriba, no centrado verticalmente
+
+  @media (max-width: 576px) {
+    padding: 1rem;
+  }
+}
+
+// =========================================================
+// 2. CONTENEDOR TIPO TARJETA
+// =========================================================
+.content-card {
+  width: 100%;
+  max-width: 1000px; // Ancho máximo controlado
+  background-color: $white;
+  border-radius: 12px;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+
+  @media (max-width: 576px) {
+    box-shadow: none;
+    background-color: transparent;
+    border-radius: 0;
+  }
+}
+
+// =========================================================
+// 3. ENCABEZADO
+// =========================================================
+.page-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  background-color: $white;
+
+  @media (max-width: 576px) {
+    padding: 1rem 0;
+    background-color: transparent;
+  }
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  color: $primary-color;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  color: $primary-color;
+  font-weight: 600;
+  padding: 0;
+  width: fit-content;
+  transition: color 0.2s;
+  margin-bottom: 0.5rem;
+
+  &:hover {
+    color: darken($accent-color, 20%);
+    svg { transform: translateX(-3px); }
+  }
+  svg { transition: transform 0.2s; }
+}
+
+// =========================================================
+// 4. TABLA
+// =========================================================
+.table-head-custom {
+  background-color: $primary-color;
+
+  th {
+    background-color: $primary-color !important;
+    color: $white;
+    font-weight: 500;
+    border: none;
+    padding: 1rem 0.5rem;
+    white-space: nowrap;
+  }
+}
+
+.text-primary-custom { color: $primary-color; }
+.text-success-dark { color: #198754; } // Verde oscuro estándar para dinero
+.fw-500 { font-weight: 500; }
+
+.table-hover tbody tr:hover {
+  background-color: rgba($accent-color, 0.05);
+}
+
+.loading-container {
+  padding: 4rem;
+  text-align: center;
+  .text-primary-custom { color: $primary-color; }
+}
+
+// Scrollbar
+.custom-scrollbar {
+  &::-webkit-scrollbar { height: 6px; }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($primary-color, 0.2);
+    border-radius: 4px;
+  }
+}

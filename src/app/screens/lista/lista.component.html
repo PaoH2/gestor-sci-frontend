@@ -1,0 +1,98 @@
+<!-- 1. Navegación Fija -->
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<!-- 2. Contenido Principal -->
+<main class="main-content">
+  <div class="table-container">
+
+    <!-- Encabezado de la Página -->
+    <div class="page-header">
+      <div class="header-left">
+        <button type="button" class="btn-back" (click)="goBack()" title="Regresar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+          </svg>
+          <span>Regresar</span>
+        </button>
+        <h2 class="page-title">Lista de Productos</h2>
+      </div>
+
+      <!-- Botón Nuevo Producto (Visible para Admin) -->
+      <button *ngIf="isAdmin" class="btn btn-create" routerLink="/crear">
+        <i class="bi bi-plus-lg"></i>
+        <span class="d-none d-sm-inline">Nuevo Producto</span>
+      </button>
+    </div>
+
+    <!-- Indicador de Carga -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner-border text-primary-custom" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-2 text-muted">Cargando catálogo...</p>
+    </div>
+
+    <!-- Tabla de Productos -->
+    <div *ngIf="!isLoading" class="table-responsive custom-scrollbar">
+      <table class="table table-hover align-middle">
+        <thead class="table-head-custom">
+          <tr>
+            <th scope="col" class="ps-3">SKU</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Costo</th>
+            <th scope="col" class="text-center">Stock</th>
+            <th scope="col" *ngIf="isAdmin" class="text-end pe-3">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let prod of productos">
+            <!-- SKU -->
+            <td class="ps-3">
+              <span class="font-monospace fw-bold text-primary-custom">{{ prod.SKU }}</span>
+            </td>
+
+            <!-- Nombre -->
+            <td class="fw-500">{{ prod.Nombre_Producto }}</td>
+
+            <!-- Costo -->
+            <td>{{ prod.Costo | currency }}</td>
+
+            <!-- Stock (Badge) -->
+            <td class="text-center">
+              <span class="badge rounded-pill"
+                    [ngClass]="prod.Stock_Actual > 5 ? 'bg-success-subtle text-success-dark' : 'bg-warning-subtle text-warning-dark'">
+                {{ prod.Stock_Actual }}
+              </span>
+            </td>
+
+            <!-- Acciones -->
+            <td *ngIf="isAdmin" class="text-end pe-3">
+              <div class="btn-group">
+                <a [routerLink]="['/editarp', prod.SKU]"
+                   class="btn btn-sm btn-outline-primary"
+                   title="Editar">
+                  <i class="bi bi-pencil-fill"></i>
+                </a>
+                <button class="btn btn-sm btn-outline-danger"
+                        (click)="eliminarProducto(prod.SKU)"
+                        title="Eliminar">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Estado Vacío -->
+          <tr *ngIf="productos.length === 0">
+            <td [attr.colspan]="isAdmin ? 5 : 4" class="text-center py-5 text-muted">
+              <i class="bi bi-box-seam display-4 d-block mb-3 opacity-50"></i>
+              No hay productos registrados.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</main>

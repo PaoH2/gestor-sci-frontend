@@ -1,0 +1,193 @@
+// --- Variables de Tema ---
+$primary-color: #5D4037; // Café
+$accent-color: #FABF8F; // Naranja suave
+$bg-color: #f8f9fa;
+$white: #ffffff;
+$shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+:host {
+  display: block;
+  background-color: $bg-color;
+  min-height: 100vh;
+}
+
+// =========================================================
+// 1. LAYOUT LOGIC (Consistente con los otros componentes)
+// =========================================================
+.main-content {
+  width: 100%;
+  transition: all 0.3s ease;
+
+  // MÓVIL
+  padding-top: 80px;
+  padding-bottom: 90px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+
+  // ESCRITORIO
+  @media (min-width: 768px) {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    padding-top: 84px;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+// =========================================================
+// 2. CONTAINER TIPO TARJETA
+// =========================================================
+.table-container {
+  max-width: 1000px; // Ancho máximo para que no se estire demasiado en monitores gigantes
+  margin: 0 auto;
+  background-color: $white;
+  border-radius: 12px;
+  box-shadow: $shadow-card;
+  overflow: hidden; // Para que las esquinas de la tabla respeten el borde
+
+  @media (max-width: 767px) {
+    box-shadow: none;
+    background-color: transparent; // En móvil se ve más limpio sin tarjeta
+    border-radius: 0;
+  }
+}
+
+// =========================================================
+// 3. ENCABEZADO Y BOTONES
+// =========================================================
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  background-color: $white;
+
+  @media (max-width: 767px) {
+    padding: 1rem 0; // Menos padding en móvil y sin fondo blanco si se quita la tarjeta
+    background-color: transparent;
+  }
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @media (min-width: 576px) {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+.page-title {
+  font-size: 1.5rem;
+  color: $primary-color;
+  font-weight: 700;
+  margin: 0;
+}
+
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  color: $primary-color;
+  font-weight: 600;
+  padding: 0;
+  transition: color 0.2s;
+
+  &:hover {
+    color: darken($accent-color, 20%);
+  }
+}
+
+.btn-create {
+  background-color: $primary-color;
+  color: $white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: lighten($primary-color, 5%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba($primary-color, 0.2);
+  }
+}
+
+// =========================================================
+// 4. TABLA PERSONALIZADA
+// =========================================================
+.table-head-custom {
+  background-color: $primary-color;
+
+  th {
+    background-color: $primary-color !important;
+    color: $white;
+    font-weight: 500;
+    border: none;
+    padding: 1rem 0.5rem;
+    white-space: nowrap; // Evita que el título se rompa
+  }
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba($accent-color, 0.1);
+}
+
+// Avatar pequeño para el email
+.avatar-circle {
+  width: 30px;
+  height: 30px;
+  background-color: lighten($primary-color, 40%);
+  color: $primary-color;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+// Badges de Rol
+.bg-primary-subtle { background-color: rgba($accent-color, 0.3); }
+.text-primary-dark { color: darken($primary-color, 10%); }
+
+// Ajustes botones de acción
+.btn-outline-primary {
+  color: $primary-color;
+  border-color: rgba($primary-color, 0.3);
+  &:hover {
+    background-color: $primary-color;
+    color: $white;
+  }
+}
+
+// Scrollbar personalizado para la tabla en móvil
+.custom-scrollbar {
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($primary-color, 0.2);
+    border-radius: 4px;
+  }
+}
+
+.loading-container {
+  padding: 3rem;
+  text-align: center;
+  .text-primary-custom { color: $primary-color; }
+}
+
+.fade-in { animation: fadeIn 0.3s ease-in; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }

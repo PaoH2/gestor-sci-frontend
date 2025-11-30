@@ -1,0 +1,217 @@
+// --- Variables (Tema Café/Naranja) ---
+$navbar-bg: #FABF8F;
+$navbar-text: #5D4037;
+$navbar-text-hover: #3E2723;
+$icon-bg-hover: rgba(93, 64, 55, 0.1);
+$white: #ffffff;
+$shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+// --- Configuración Global del Host ---
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.app-navbar {
+  background-color: $navbar-bg;
+  box-shadow: $shadow;
+  color: $navbar-text;
+  height: 60px; // Altura fija para consistencia
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 1rem;
+  max-width: 100%;
+}
+
+// =========================================================
+// 1. BLOQUE IZQUIERDO: Marca
+// =========================================================
+.navbar-left {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; // Evita que el logo se aplaste
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: $navbar-text;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+
+  .brand-icon {
+    color: $white; // Icono blanco para resaltar sobre naranja
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+  }
+
+  // En pantallas muy pequeñas, ocultamos el texto si es necesario,
+  // o reducimos la fuente. Aquí solo reducimos fuente.
+  @media (max-width: 360px) {
+    font-size: 0.9rem;
+    .brand-text { display: none; } // Ocultar texto en móviles muy angostos
+  }
+}
+
+// =========================================================
+// 2. BLOQUE CENTRAL: Acciones (Iconos)
+// =========================================================
+.navbar-actions, .user-actions {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+// Estilo común para todos los botones de icono (nav-link)
+.nav-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; // Círculo perfecto
+  color: $navbar-text;
+  text-decoration: none;
+  font-size: 1.25rem;
+  transition: background-color 0.2s;
+
+  &:hover, &.active {
+    background-color: $icon-bg-hover;
+    color: $navbar-text-hover;
+  }
+
+  &.highlight {
+    // Resaltar el botón POS
+    background-color: rgba(255, 255, 255, 0.2);
+    &:hover { background-color: rgba(255, 255, 255, 0.4); }
+  }
+}
+
+// =========================================================
+// 3. BARRA DE BÚSQUEDA (Responsive)
+// =========================================================
+.search-container {
+  display: none; // Oculto por defecto en móvil
+  flex-grow: 1;
+  justify-content: center;
+  margin: 0 1rem;
+}
+
+.search-form {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+
+  .form-control {
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    border-radius: 20px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.6);
+    color: $navbar-text;
+    outline: none;
+    transition: background-color 0.2s;
+
+    &::placeholder { color: rgba($navbar-text, 0.6); }
+    &:focus { background-color: $white; box-shadow: 0 0 0 2px rgba($navbar-text, 0.2); }
+  }
+
+  .btn-search {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: $navbar-text;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+  }
+}
+
+// =========================================================
+// 4. BLOQUE DERECHO: Usuario
+// =========================================================
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+}
+
+.user-name {
+  display: none; // Oculto en móvil
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: $navbar-text;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  background-color: $navbar-text;
+  color: $navbar-bg; // Texto claro sobre fondo oscuro
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+  border: 2px solid rgba(255,255,255,0.3);
+  user-select: none;
+}
+
+// =========================================================
+// MEDIA QUERIES (Desktop ≥ 768px)
+// =========================================================
+@media (min-width: 768px) {
+  .app-navbar {
+    height: 64px; // Un poco más alto en desktop
+  }
+
+  .navbar {
+    padding: 0 2rem;
+  }
+
+  // Mostrar búsqueda
+  .search-container {
+    display: flex;
+  }
+
+  // Mostrar nombre de usuario
+  .user-name {
+    display: block;
+  }
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .navbar-brand {
+    font-size: 1.25rem;
+
+    // Restaurar texto si se ocultó en móviles muy pequeños
+    .brand-text { display: inline; }
+  }
+}
