@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs'; // Importación estándar de Observable
+import { environment } from 'src/environment/environment.prod';
 
 export interface MovimientoHistorial {
   id: number;
@@ -17,7 +18,7 @@ export interface MovimientoHistorial {
   providedIn: 'root'
 })
 export class MovimientoService {
-  private apiUrl = 'http://127.0.0.1:8000/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 

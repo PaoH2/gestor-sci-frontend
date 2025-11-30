@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environment/environment.prod';
 
 export interface Producto {
   ID_Producto: number;
@@ -19,7 +20,7 @@ export interface Producto {
 export class ApiService {
 
   // URL base de tu API. Apunta al servidor Node.js.
-  private apiUrl = 'http://127.0.0.1:8000/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from 'src/environment/environment.prod';
 
 export interface AuthResponse {
   message: string;
@@ -19,7 +20,7 @@ export interface AuthResponse {
 export class AuthService {
 
   // URL base de tu API (apunta al servidor Django)
-  private apiUrl = 'http://127.0.0.1:8000/api';
+  private apiUrl = environment.apiUrl;
 
   // --- Claves para el LocalStorage ---
   // Es una buena práctica usar constantes para las claves
