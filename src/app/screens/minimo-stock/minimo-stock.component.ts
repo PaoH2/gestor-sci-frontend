@@ -12,7 +12,7 @@ import { Location } from '@angular/common';
 
 export class MinimoStockComponent implements OnInit{
 
-  minimoForm: FormGroup;
+  minimoForm!: FormGroup;
   mensajeExito: string = '';
   mensajeError: string = '';
   isLoading: boolean = true;
