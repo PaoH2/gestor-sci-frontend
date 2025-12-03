@@ -75,7 +75,7 @@
         <div class="col-12 col-md-6 mb-4">
           <label for="nivelMinimo" class="form-label">Nivel Mínimo de Stock</label>
           <input type="number" id="nivelMinimo" formControlName="Nivel_Minimo_Stock" class="form-control"
-            [ngClass]="{ 'is-invalid': productoForm.get('Nivel_Minimo_Stock')?.invalid && productoForm.get('Nivel_Minimo_Stock')?.touched }"
+            [ngClass]="{ 'is-invalid': minimoForm.get('Nivel_Minimo_Stock')?.invalid && minimoForm.get('Nivel_Minimo_Stock')?.touched }"
             min="0">
           <div class="invalid-feedback">
             <span *ngIf="productoForm.get('Nivel_Minimo_Stock')?.errors?.['required']">El nivel mínimo es obligatorio.</span>

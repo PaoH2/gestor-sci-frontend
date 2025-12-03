@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment'; 
+import { environment } from 'src/environment/environment.prod' 
 
 export interface Producto {
   ID_Producto: number;
@@ -51,7 +51,7 @@ export class ApiService {
   updateProducto(sku: string, data: Partial<Producto>): Observable<any> {
     return this.http.patch(`${this.apiUrl}/productos/${sku}/`, data);
   }
-  
+
   updateNivelMinimoStock(sku: string, nuevoNivel: number): Observable<Producto> {
     const data = {Nivel_Minimo_Stock: nuevoNivel};
     return this.http.patch<Producto>(`${this.apiUrl}/productos/${sku}/`, data);
