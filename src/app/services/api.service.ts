@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environment/environment.prod' 
+import { environment } from 'src/environment/environment.prod';
 
 export interface Producto {
   ID_Producto: number;
@@ -18,10 +18,10 @@ export interface Producto {
 }
 
 export interface Categoria {
-    id: number;
-    nombre: string;
-    descripcion: string;
-};
+  id: number;
+  nombre: string;
+  descripcion: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +41,7 @@ export class ApiService {
   }
 
   public crearProducto(nuevoProducto: Partial<Producto>): Observable<any> {
-     return this.http.post(`${this.apiUrl}/productos/`, nuevoProducto);
+    return this.http.post(`${this.apiUrl}/productos/`, nuevoProducto);
   }
 
   getCategorias(): Observable<Categoria[]> {
@@ -53,7 +53,7 @@ export class ApiService {
   }
 
   updateNivelMinimoStock(sku: string, nuevoNivel: number): Observable<Producto> {
-    const data = {Nivel_Minimo_Stock: nuevoNivel};
+    const data = { Nivel_Minimo_Stock: nuevoNivel };
     return this.http.patch<Producto>(`${this.apiUrl}/productos/${sku}/`, data);
   }
 
