@@ -1,0 +1,97 @@
+<!-- 1. Navegación Fija -->
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<!-- 2. Contenido Principal -->
+<main class="main-content">
+  <div class="form-wrapper">
+
+    <!-- Encabezado -->
+    <div class="form-header">
+      <button type="button" class="btn-back" (click)="goBack()" title="Regresar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+          <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+        </svg>
+        <span>Regresar</span>
+      </button>
+      <h3 class="page-title">Editar Producto</h3>
+    </div>
+
+    <!-- Estado de Carga -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner-border text-primary-custom" role="status">
+        <span class="visually-hidden">Cargando datos...</span>
+      </div>
+      <p class="mt-2 text-muted">Cargando información del producto...</p>
+    </div>
+
+    <!-- Alertas -->
+    <div *ngIf="mensajeExito" class="alert alert-success fade-in">
+      <i class="bi bi-check-circle-fill me-2"></i> {{ mensajeExito }}
+    </div>
+    <div *ngIf="mensajeError" class="alert alert-danger fade-in">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ mensajeError }}
+    </div>
+
+    <!-- Formulario -->
+    <form *ngIf="!isLoading" [formGroup]="productoForm" (ngSubmit)="onSubmit()" class="app-form">
+
+      <!-- Fila de Datos de Identificación (Solo Lectura) -->
+      <div class="row">
+        <div class="col-12 col-md-4 mb-3">
+          <label for="sku" class="form-label">SKU</label>
+          <input type="text" id="sku" formControlName="SKU" class="form-control" readonly>
+          <small class="text-muted"><i class="bi bi-lock-fill"></i> No editable</small>
+        </div>
+
+        <div class="col-12 col-md-8 mb-3">
+          <label for="nombre" class="form-label">Nombre del Producto</label>
+          <input type="text" id="nombre" formControlName="Nombre_Producto" class="form-control" readonly>
+          <small class="text-muted"><i class="bi bi-lock-fill"></i> No editable</small>
+        </div>
+      </div>
+
+      <!-- Descripción (Editable) -->
+      <div class="mb-3">
+        <label for="descripcion" class="form-label">Descripción</label>
+        <textarea id="descripcion" formControlName="Descripcion" class="form-control" rows="3" placeholder="Añade detalles del producto..."></textarea>
+      </div>
+
+      <!-- Fila de Costo y Nivel Mínimo (Editables) -->
+      <div class="row">
+        
+        <!-- Costo (Editable) -->
+        <div class="col-12 col-md-6 mb-4">
+          <label for="costo" class="form-label">Costo ($)</label>
+          <input type="number" id="costo" formControlName="Costo" class="form-control"
+            [ngClass]="{ 'is-invalid': productoForm.get('Costo')?.invalid && productoForm.get('Costo')?.touched }">
+          <div class="invalid-feedback">
+            <span *ngIf="productoForm.get('Costo')?.errors?.['required']">El costo es obligatorio.</span>
+            <span *ngIf="productoForm.get('Costo')?.errors?.['min']">El costo no puede ser negativo.</span>
+          </div>
+        </div>
+
+        <!-- Nivel Mínimo de Stock (Nuevo Campo Editable) -->
+        <div class="col-12 col-md-6 mb-4">
+          <label for="nivelMinimo" class="form-label">Nivel Mínimo de Stock</label>
+          <input type="number" id="nivelMinimo" formControlName="Nivel_Minimo_Stock" class="form-control"
+            [ngClass]="{ 'is-invalid': productoForm.get('Nivel_Minimo_Stock')?.invalid && productoForm.get('Nivel_Minimo_Stock')?.touched }"
+            min="0">
+          <div class="invalid-feedback">
+            <span *ngIf="productoForm.get('Nivel_Minimo_Stock')?.errors?.['required']">El nivel mínimo es obligatorio.</span>
+            <span *ngIf="productoForm.get('Nivel_Minimo_Stock')?.errors?.['min']">El nivel no puede ser negativo.</span>
+          </div>
+          <small class="text-muted">Stock que dispara la alerta de reposición.</small>
+        </div>
+      </div>
+
+      <!-- Botón Guardar -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-save" [disabled]="productoForm.invalid">
+          <i class="bi bi-pencil-square me-2"></i> Guardar Cambios
+        </button>
+      </div>
+
+    </form>
+  </div>
+</main>

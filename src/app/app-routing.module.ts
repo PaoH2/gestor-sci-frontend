@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule, Component } from '@angular/core';
+import { RouterModule, Routes, CanActivate } from '@angular/router';
 
 // Componentes
 import { HomeComponent } from './screens/home/home.component';
@@ -18,6 +18,7 @@ import { PosComponent } from './screens/pos/pos.component';
 // Guards
 import { AuthGuard } from './guards/auth.guard';
 import { HistorialVentasComponent } from './screens/historial-ventas/historial-ventas.component';
+import { MinimoStockComponent } from './screens/minimo-stock/minimo-stock.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -39,7 +40,8 @@ const routes: Routes = [
   { path: 'gestionarusuarios', component: GestionarUsuariosComponent, canActivate: [AuthGuard], data: {role: 'Superadmin'}},
   { path: 'admin/usuarios/editar/:id', component: EditarUsuarioComponent, canActivate: [AuthGuard], data: {role: 'Superadmin'}},
   { path: 'crearusuario', component: CrearUsuarioComponent, canActivate: [AuthGuard], data: {role: 'Superadmin'}},
-  { path: 'ventas', component: HistorialVentasComponent, canActivate: [AuthGuard] }
+  { path: 'ventas', component: HistorialVentasComponent, canActivate: [AuthGuard] },
+  { path: 'stock-min', Component: MinimoStockComponent, CanActivate: [AuthGuard], data: {role: 'Superadmin'}}
 ];
 
 @NgModule({

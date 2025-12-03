@@ -1,8 +1,8 @@
-<!-- 1. Navegación (Fijos) -->
+<!-- 1. Navegación -->
 <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
 
-<!-- 2. Contenido Principal (Con scroll) -->
+<!-- 2. Contenido Principal -->
 <main class="main-content">
   <div class="form-wrapper">
 
@@ -54,7 +54,7 @@
       </div>
 
       <!-- Costo -->
-      <div class="mb-4">
+      <div class="mb-3">
         <label for="costo" class="form-label">Costo ($)</label>
         <input type="number" id="costo" formControlName="Costo" class="form-control"
                [ngClass]="{ 'is-invalid': productoForm.get('Costo')?.invalid && productoForm.get('Costo')?.touched }"
@@ -64,6 +64,49 @@
           <span *ngIf="productoForm.get('Costo')?.errors?.['min']">No puede ser negativo.</span>
         </div>
       </div>
+
+      <div class="row">
+          <div class="col-12 col-md-6 mb-3">
+              <label for="stock_inicial" class="form-label">Stock Inicial</label>
+              <input type="number" id="stock_inicial" formControlName="Stock_Actual" class="form-control"
+                     [ngClass]="{ 'is-invalid': productoForm.get('Stock_Actual')?.invalid && productoForm.get('Stock_Actual')?.touched }"
+                     placeholder="Ej. 100">
+              <div class="invalid-feedback">
+                El stock inicial es obligatorio y no puede ser negativo.
+              </div>
+          </div>
+
+          <div class="col-12 col-md-6 mb-3">
+              <label for="minimo_stock" class="form-label">Nivel Mínimo de Stock</label>
+              <input type="number" id="minimo_stock" formControlName="Nivel_Minimo_Stock" class="form-control"
+                     [ngClass]="{ 'is-invalid': productoForm.get('Nivel_Minimo_Stock')?.invalid && productoForm.get('Nivel_Minimo_Stock')?.touched }"
+                     placeholder="Ej. 10">
+              <div class="invalid-feedback">
+                El nivel mínimo no puede ser negativo.
+              </div>
+          </div>
+      </div>
+
+      <div class="mb-4">
+          <label for="categoria" class="form-label">Categoría</label>
+          <select
+              id="categoria"
+              formControlName="categoria_id"
+              class="form-select form-select-lg"
+              [ngClass]="{ 'is-invalid': productoForm.get('categoria_id')?.invalid && productoForm.get('categoria_id')?.touched }">
+              
+              <option [ngValue]="null" disabled>-- Seleccione una Categoría --</option>
+              
+              <option *ngFor="let cat of categorias" [ngValue]="cat.id">
+                  {{ cat.nombre }}
+              </option>
+          </select>
+
+          <div *ngIf="productoForm.get('categoria_id')?.invalid && productoForm.get('categoria_id')?.touched" class="invalid-feedback">
+              La categoría es obligatoria.
+          </div>
+      </div>
+
 
       <!-- Botón Guardar -->
       <div class="form-actions">

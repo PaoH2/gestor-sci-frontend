@@ -21,7 +21,8 @@ import { RegistroEntradaComponent } from './screens/registro-entrada/registro-en
 import { RegistroSalidasComponent } from './screens/registro-salidas/registro-salidas.component';
 import { HistorialMovimientosComponent } from './screens/historial-movimientos/historial-movimientos.component';
 import { PosComponent } from './screens/pos/pos.component';
-import { HistorialVentasComponent } from './screens/historial-ventas/historial-ventas.component'; // <--- Ruta corregida: 'screens' en plural
+import { HistorialVentasComponent } from './screens/historial-ventas/historial-ventas.component';
+import { MinimoStockComponent } from './screens/minimo-stock/minimo-stock.component'; // <--- Ruta corregida: 'screens' en plural
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { HistorialVentasComponent } from './screens/historial-ventas/historial-v
     RegistroSalidasComponent,
     HistorialMovimientosComponent,
     PosComponent,
-    HistorialVentasComponent
+    HistorialVentasComponent,
+    MinimoStockComponent
   ],
   imports: [
     BrowserModule,

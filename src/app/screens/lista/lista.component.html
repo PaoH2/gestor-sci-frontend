@@ -4,9 +4,9 @@
 
 <!-- 2. Contenido Principal -->
 <main class="main-content">
-  <div class="table-container">
+ <div class="table-container">
 
-    <!-- Encabezado de la Página -->
+ <!-- Encabezado de la Página -->
     <div class="page-header">
       <div class="header-left">
         <button type="button" class="btn-back" (click)="goBack()" title="Regresar">
@@ -18,81 +18,91 @@
         <h2 class="page-title">Lista de Productos</h2>
       </div>
 
-      <!-- Botón Nuevo Producto (Visible para Admin) -->
+<!-- Botón Nuevo Producto (Visible para Admin) -->
       <button *ngIf="isAdmin" class="btn btn-create" routerLink="/crear">
-        <i class="bi bi-plus-lg"></i>
+          <i class="bi bi-plus-lg"></i>
         <span class="d-none d-sm-inline">Nuevo Producto</span>
       </button>
     </div>
 
-    <!-- Indicador de Carga -->
-    <div *ngIf="isLoading" class="loading-container">
-      <div class="spinner-border text-primary-custom" role="status">
-        <span class="visually-hidden">Cargando...</span>
+<!-- Indicador de Carga -->
+      <div *ngIf="isLoading" class="loading-container">
+        <div class="spinner-border text-primary-custom" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+          <p class="mt-2 text-muted">Cargando catálogo...</p>
       </div>
-      <p class="mt-2 text-muted">Cargando catálogo...</p>
-    </div>
 
-    <!-- Tabla de Productos -->
-    <div *ngIf="!isLoading" class="table-responsive custom-scrollbar">
+ <!-- Tabla de Productos -->
+      <div *ngIf="!isLoading" class="table-responsive custom-scrollbar">
       <table class="table table-hover align-middle">
         <thead class="table-head-custom">
           <tr>
             <th scope="col" class="ps-3">SKU</th>
             <th scope="col">Nombre</th>
+            <th scope="col">Categoría</th>
             <th scope="col">Costo</th>
             <th scope="col" class="text-center">Stock</th>
+            <th scope="col" class="text-center">Mínimo</th>
             <th scope="col" *ngIf="isAdmin" class="text-end pe-3">Acciones</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let prod of productos">
-            <!-- SKU -->
             <td class="ps-3">
-              <span class="font-monospace fw-bold text-primary-custom">{{ prod.SKU }}</span>
+             <span class="font-monospace fw-bold text-primary-custom">{{ prod.SKU }}</span>
             </td>
 
-            <!-- Nombre -->
-            <td class="fw-500">{{ prod.Nombre_Producto }}</td>
+              <td class="fw-500">{{ prod.Nombre_Producto }}</td>
+              <td>
+                <span class="badge bg-secondary">
+                  {{ prod.Nombre_Categoria || 'Sin Categoría' }} <!-- Muestra el nombre enriquecido por Django -->
+                </span>
+              </td>
+              <td>{{ prod.Costo | currency }}</td>
 
-            <!-- Costo -->
-            <td>{{ prod.Costo | currency }}</td>
-
-            <!-- Stock (Badge) -->
-            <td class="text-center">
-              <span class="badge rounded-pill"
-                    [ngClass]="prod.Stock_Actual > 5 ? 'bg-success-subtle text-success-dark' : 'bg-warning-subtle text-warning-dark'">
-                {{ prod.Stock_Actual }}
-              </span>
+              <td class="text-center">
+               <span class="badge rounded-pill"
+                 [ngClass]="prod.Stock_Actual <= prod.Nivel_Minimo_Stock && prod.Nivel_Minimo_Stock > 0 ? 'bg-danger-subtle text-danger-dark' : 'bg-success-subtle text-success-dark'">
+                 {{ prod.Stock_Actual }}
+               </span>
+             </td>
+            
+            <td class="text-center fw-bold text-muted">
+                {{ prod.Nivel_Minimo_Stock === 0 ? 'N/A' : prod.Nivel_Minimo_Stock }}
             </td>
 
-            <!-- Acciones -->
-            <td *ngIf="isAdmin" class="text-end pe-3">
-              <div class="btn-group">
-                <a [routerLink]="['/editarp', prod.SKU]"
-                   class="btn btn-sm btn-outline-primary"
-                   title="Editar">
-                  <i class="bi bi-pencil-fill"></i>
+           <td *ngIf="isAdmin" class="text-end pe-3">
+             <div class="btn-group">
+                <a [routerLink]="['/minimo', prod.SKU]"
+                    class="btn btn-sm btn-outline-warning"
+                    title="Asignar Mínimo">
+                    <i class="bi bi-bell-fill"></i>
                 </a>
-                <button class="btn btn-sm btn-outline-danger"
-                        (click)="eliminarProducto(prod.SKU)"
-                        title="Eliminar">
+                
+              <a [routerLink]="['/editarp', prod.SKU]"
+                  class="btn btn-sm btn-outline-primary"
+                  title="Editar">
+                 <i class="bi bi-pencil-fill"></i>
+               </a>
+                 <button class="btn btn-sm btn-outline-danger"
+                  (click)="eliminarProducto(prod.SKU)"
+                  title="Eliminar">
                   <i class="bi bi-trash-fill"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
+               </button>
+             </div>
+           </td>
+         </tr>
 
-          <!-- Estado Vacío -->
-          <tr *ngIf="productos.length === 0">
-            <td [attr.colspan]="isAdmin ? 5 : 4" class="text-center py-5 text-muted">
-              <i class="bi bi-box-seam display-4 d-block mb-3 opacity-50"></i>
-              No hay productos registrados.
-            </td>
+         <tr *ngIf="productos.length === 0">
+           <td [attr.colspan]="isAdmin ? 6 : 5" class="text-center py-5 text-muted"> <!-- Colspan ajustado a 6 o 5 -->
+             <i class="bi bi-box-seam display-4 d-block mb-3 opacity-50"></i>
+             No hay productos registrados.
+           </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-  </div>
+ </div>
 </main>
