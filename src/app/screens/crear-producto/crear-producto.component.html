@@ -87,26 +87,25 @@
           </div>
       </div>
 
-      <div class="mb-4">
-          <label for="categoria" class="form-label">Categoría</label>
-          <select
-              id="categoria"
-              formControlName="categoria_id"
-              class="form-select form-select-lg"
-              [ngClass]="{ 'is-invalid': productoForm.get('categoria_id')?.invalid && productoForm.get('categoria_id')?.touched }">
-              
-              <option [ngValue]="null" disabled>-- Seleccione una Categoría --</option>
-              
-              <option *ngFor="let cat of categorias" [ngValue]="cat.id">
-                  {{ cat.nombre }}
-              </option>
-          </select>
-
-          <div *ngIf="productoForm.get('categoria_id')?.invalid && productoForm.get('categoria_id')?.touched" class="invalid-feedback">
-              La categoría es obligatoria.
-          </div>
-      </div>
-
+      <div class="col-12 col-md-6 mb-4">
+            <label for="categoria" class="form-label">Categoría</label>
+            <select id="categoria" formControlName="categoria_id" class="form-control"
+                    [ngClass]="{ 'is-invalid': productoForm.get('categoria_id')?.invalid && productoForm.get('categoria_id')?.touched }">
+                
+                <!-- Opción por defecto (valor inicial requerido por el [Validators.required]) -->
+                <option [ngValue]="null" disabled>-- Seleccione una Categoría --</option> 
+                
+                <!-- Iteración Correcta: Recorre el array 'categorias' -->
+                <option *ngFor="let cat of categorias" 
+                        [ngValue]="cat.id">
+                    {{ cat.nombre }}
+                </option>
+            </select>
+            
+            <div class="invalid-feedback">
+                <span *ngIf="productoForm.get('categoria_id')?.errors?.['required']">La categoría es obligatoria.</span>
+            </div>
+        </div>
 
       <!-- Botón Guardar -->
       <div class="form-actions">
