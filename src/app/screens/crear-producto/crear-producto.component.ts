@@ -29,7 +29,7 @@ export class CrearProductoComponent implements OnInit{
       Nombre_Producto: ['', Validators.required],
       Descripcion: [''],
       Costo: [null, [Validators.required, Validators.min(0)]],
-      categoria_id: [null, [Validators.required, Validators.min(1)]]
+      categoria_id: [null, Validators.required]
     });
   }
 
@@ -39,8 +39,8 @@ export class CrearProductoComponent implements OnInit{
         this.categorias = data;
       },
       error: (err) => {
-        console.error("Error al cargar categorías", err);
-        this.mensajeError = 'Error al cargar categorías. Verifique la conexión con el servidor.';
+        console.error('Error al cargar categorías:', err);
+        this.mensajeError = 'No se pudieron cargar las categorías.';
       }
     });
   }
