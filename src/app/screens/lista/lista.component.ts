@@ -82,13 +82,18 @@ export class ListaComponent implements OnInit {
     if (categoryId === null) {
       this.productosFiltrados = this.productos;
     } else if (categoryId === SIN_CATEGORIA_ID) {
-      // Filtrar por productos que tienen categoria_id estrictamente nulo (como lo define Django)
+      // Caso 0: Filtra productos cuya categoría es nula (Sin Categoría en Django)
       this.productosFiltrados = this.productos.filter(prod => prod.categoria_id === null);
     } else {
-      // SEGUNDA CORRECCIÓN CLAVE: Usamos Number() para asegurar la conversión a entero para la comparación estricta.
-      this.productosFiltrados = this.productos.filter(prod => 
-        prod.categoria_id !== null && Number(prod.categoria_id) === categoryId
-      );
+      // Corrección final de robustez: convierte el ID del producto a número seguro
+      this.productosFiltrados = this.productos.filter(prod => {
+        if (prod.categoria_id === null) {
+          return false;
+        }
+        // Conversión a número robusta para asegurar la comparación estricta
+        const productCatId = Number(String(prod.categoria_id));
+        return productCatId === categoryId;
+      });
     }
   }
 
