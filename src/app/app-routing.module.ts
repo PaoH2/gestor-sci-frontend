@@ -37,7 +37,7 @@ const routes: Routes = [
   { path: 'admin/usuarios/editar/:id', component: EditarUsuarioComponent, canActivate: [AuthGuard], data: {role: 'Superadmin'}},
   { path: 'crearusuario', component: CrearUsuarioComponent, canActivate: [AuthGuard], data: {role: 'Superadmin'}},
   { path: 'ventas', component: HistorialVentasComponent, canActivate: [AuthGuard] },
-  { path: 'stock-min', component: MinimoStockComponent, canActivate: [AuthGuard], data: {role: 'Superadmin'}}
+  { path: 'minimo/:sku', component: MinimoStockComponent, canActivate: [AuthGuard], data: {role: 'Superadmin'}}
 ];
 
 @NgModule({

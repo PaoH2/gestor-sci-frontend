@@ -9,11 +9,9 @@ import { Location } from '@angular/common';
   templateUrl: './minimo-stock.component.html',
   styleUrls: ['./minimo-stock.component.scss']
 })
-
 export class MinimoStockComponent implements OnInit{
 
-  minimoForm!: FormGroup;
-  mensajeExito: string = '';
+  minimoForm!: FormGroup; 
   mensajeError: string = '';
   isLoading: boolean = true;
 
@@ -34,6 +32,7 @@ export class MinimoStockComponent implements OnInit{
       Nombre_Producto: [{ value: '', disabled: true }],
       Nivel_Minimo_Stock: [0, [Validators.required, Validators.min(0)]]
       });
+
     this.productoSKU = this.route.snapshot.paramMap.get('sku');
 
     if (this.productoSKU) {
@@ -61,6 +60,7 @@ export class MinimoStockComponent implements OnInit{
 
     this.mensajeExito = '';
     this.mensajeError = '';
+
     const nivelMinimo = this.minimoForm.get('Nivel_Minimo_Stock')?.value;
     const datosActualizados = { Nivel_Minimo_Stock: nivelMinimo };
 
@@ -74,14 +74,7 @@ export class MinimoStockComponent implements OnInit{
     });
   }
 
-
-
   goBack(): void {
     this.location.back();
   }
-
- 
-
-
-
 }
