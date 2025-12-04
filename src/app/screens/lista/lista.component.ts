@@ -11,7 +11,8 @@ const SIN_CATEGORIA_ID = 0;
   templateUrl: './lista.component.html',
   styleUrls: ['./lista.component.scss']
 })
-export class ListaComponent implements OnInit{
+export class ListaComponent implements OnInit {
+
   productos: Producto[] = [];
   categorias: Categoria[] = [];
   productosFiltrados: Producto[] = [];
@@ -83,7 +84,9 @@ export class ListaComponent implements OnInit{
     } else if (categoryId === SIN_CATEGORIA_ID) {
       this.productosFiltrados = this.productos.filter(prod => prod.categoria_id === null);
     } else {
-      this.productosFiltrados = this.productos.filter(prod => prod.categoria_id === categoryId);
+      this.productosFiltrados = this.productos.filter(prod => 
+        prod.categoria_id !== null && parseFloat(String(prod.categoria_id)) === categoryId
+      );
     }
   }
 
