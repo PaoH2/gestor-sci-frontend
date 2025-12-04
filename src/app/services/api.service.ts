@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-// Asumiendo que esta es la ruta correcta
-import { environment } from 'src/environments/environment'; 
+import { environment } from 'src/environment/environment.prod';
 
 // Definición de la interfaz de Producto
 export interface Producto {
