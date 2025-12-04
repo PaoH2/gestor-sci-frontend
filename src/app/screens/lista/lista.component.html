@@ -12,13 +12,17 @@
           </svg>
           <span>Regresar</span>
         </button>
-        <h2 class="page-title">Lista de Productos</h2>
+        <h2 class="page-title">Catálogo de Productos</h2>
       </div>
 
       <button *ngIf="isAdmin" class="btn btn-create" routerLink="/crear">
         <i class="bi bi-plus-lg"></i>
         <span class="d-none d-sm-inline">Nuevo Producto</span>
       </button>
+    </div>
+    
+    <div *ngIf="error" class="alert alert-danger fade-in my-3">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ error }}
     </div>
 
     <div *ngIf="isLoading" class="loading-container">
@@ -27,8 +31,22 @@
       </div>
       <p class="mt-2 text-muted">Cargando catálogo...</p>
     </div>
+    
+    <div *ngIf="!isLoading && !error" class="mb-4">
+      <ul class="nav nav-pills nav-fill">
+        <li class="nav-item" *ngFor="let cat of categorias">
+          <a 
+            class="nav-link category-pill" 
+            [class.active]="cat.id === selectedCategoryId" 
+            (click)="seleccionarCategoria(cat.id)"
+            href="javascript:void(0)">
+            {{ cat.nombre }}
+          </a>
+        </li>
+      </ul>
+    </div>
 
-    <div *ngIf="!isLoading" class="table-responsive custom-scrollbar">
+    <div *ngIf="!isLoading && !error" class="table-responsive custom-scrollbar">
       <table class="table table-hover align-middle">
         <thead class="table-head-custom">
           <tr>
@@ -42,7 +60,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let prod of productos">
+          <tr *ngFor="let prod of productosFiltrados">
             <td class="ps-3">
               <span class="font-monospace fw-bold text-primary-custom">{{ prod.SKU }}</span>
             </td>
@@ -88,10 +106,10 @@
             </td>
           </tr>
 
-          <tr *ngIf="productos.length === 0">
+          <tr *ngIf="productosFiltrados.length === 0">
             <td [attr.colspan]="isAdmin ? 7 : 6" class="text-center py-5 text-muted">
               <i class="bi bi-box-seam display-4 d-block mb-3 opacity-50"></i>
-              No hay productos registrados.
+              No hay productos registrados para esta categoría.
             </td>
           </tr>
         </tbody>
